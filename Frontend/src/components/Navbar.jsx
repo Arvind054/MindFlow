@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
-
+import {useNavigate} from 'react-router-dom';
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const navigator = useNavigate();
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Chat", href: "/createFlow" },
@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="text-2xl font-extrabold text-blue-400 tracking-tight">
+          <div className="text-2xl font-extrabold text-blue-400 tracking-tight cursor-pointer" onClick={()=>navigator('/')}>
             MindFlow
           </div>
 

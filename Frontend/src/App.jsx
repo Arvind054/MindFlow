@@ -3,6 +3,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Navbar from './components/Navbar';
 import HomePage from './components/HomePage';
 import Footer from './components/Footer';
+import CreateFlow from './components/CreateFlow';
 import './App.css'
 function App() {
   const router = createBrowserRouter([
@@ -10,6 +11,9 @@ function App() {
       path:"/",
       element: <><Navbar/><HomePage></HomePage></>
 
+    },{
+      path:"/create/:id",
+      element: <><Navbar/> <CreateFlow/>  </>  
     }
   ])
   return (
