@@ -1,7 +1,10 @@
 import React from "react";
 import { Brain, MessageCircle, Map, Rocket, Sparkles, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { createFlowAPI } from "../Store/API/FlowApi";
+import toast from "react-hot-toast";
+
 const features = [
   {
     icon: <Brain className="w-8 h-8" />,
@@ -55,6 +58,16 @@ const staggerContainer = {
 
 const HomePage = () => {
   const navigator = useNavigate();
+  const handleCreateFlow = async()=>{
+     try{
+         const id = await createFlowAPI();
+         console.log(id);
+         navigator(`/create/${id}`);
+     }catch(err){
+       console.log(err);
+       toast.error("Internal Server Error, please Try Again");
+     }
+  }
   return (
     <div className="bg-gradient-to-br from-[#0f172a] via-[#1a233a] to-[#1e293b] text-white min-h-screen font-sans overflow-hidden">
       {/* Hero Section */}
@@ -112,7 +125,7 @@ const HomePage = () => {
             transition={{ delay: 0.7 }}
           >
             <button
-              className="relative group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 overflow-hidden" onClick={()=>navigator("/create")}
+              className="relative group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 overflow-hidden" onClick={handleCreateFlow}
             >
               <span className="relative z-10">🚀 Get Started Free</span>
               <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>

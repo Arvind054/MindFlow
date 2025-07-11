@@ -9,7 +9,8 @@ const FlowSchema = new mongoose.Schema({
         required: false,
     },
     chat :{
-        type:mongoose.Types.ObjectId
+        type:mongoose.Types.ObjectId,
+        required: true,
     }
 });
 
