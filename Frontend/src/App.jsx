@@ -12,7 +12,7 @@ function App() {
       element: <><Navbar/><HomePage></HomePage></>
 
     },{
-      path:"/create/:id",
+      path:"/flow/:id",
       element: <><Navbar/> <CreateFlow/>  </>  
     }
   ])

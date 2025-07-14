@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
-const FlowSchema = new mongoose.Schema({
-    nodes:{
-        type: String,
-        required: false,
-    },
-    edges:{
-        type:String,
-        required: false,
-    },
-    chat :{
-        type:mongoose.Types.ObjectId,
-        required: true,
-    }
+const { Schema } = mongoose;
+
+const FlowSchema = new Schema({
+  nodes: {
+    type: Schema.Types.Mixed, 
+    required: false,
+  },
+  edges: {
+    type: Schema.Types.Mixed, 
+    required: false,
+  },
+  chat: {
+    type: Schema.Types.ObjectId,
+    ref: 'FlowChat', 
+    required: true,
+  },
 });
 
 const Flow = mongoose.model('Flow', FlowSchema);

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
   Background,
   Controls,
@@ -11,7 +11,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { Plus } from 'lucide-react';
-
+import { useSelector } from 'react-redux';
 // Custom Editable Node Component
 const EditableNode = ({ data, id }) => {
   const [text, setText] = useState(data.label);
@@ -34,15 +34,8 @@ const nodeTypes = {
 };
 
 const MindMap = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([
-    {
-      id: '1',
-      type: 'editableNode',
-      position: { x: 250, y: 5 },
-      data: { label: 'Start Here' },
-    }
-  ]);
-
+  const mapData = useSelector((state) => state.flow.mapData); 
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const onConnect = useCallback(
@@ -63,7 +56,10 @@ const MindMap = () => {
     };
     setNodes((nds) => [...nds, newNode]);
   };
-
+  useEffect(()=>{
+    setNodes(mapData?.nodes);
+    setEdges(mapData?.edges);
+  }, [mapData])
   return (
     <div className="h-full w-full bg-[#0f172a] text-white">
       <button

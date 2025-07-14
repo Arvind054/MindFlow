@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { createFlowAPI } from "../Store/API/FlowApi";
 import toast from "react-hot-toast";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setFlow } from "../Store/Slice/FlowSlice";
 const features = [
   {
     icon: <Brain className="w-8 h-8" />,
@@ -58,11 +59,16 @@ const staggerContainer = {
 
 const HomePage = () => {
   const navigator = useNavigate();
+  const dispatch = useDispatch();
   const handleCreateFlow = async()=>{
      try{
-         const id = await createFlowAPI();
-         console.log(id);
-         navigator(`/create/${id}`);
+      const flow = await createFlowAPI();
+      const flowId = flow._id;
+      const chat = flow.chat;
+      const mapData = { nodes: flow.nodes, edges: flow.edges }; 
+      const data = { id: flowId, mapData, chat }; 
+      dispatch(setFlow(data));
+      navigator(`/flow/${flowId}`);
      }catch(err){
        console.log(err);
        toast.error("Internal Server Error, please Try Again");

@@ -3,7 +3,7 @@ const ChatSchema = new mongoose.Schema({
     messages:[{
         type: mongoose.Types.ObjectId,
         required: false,
-        unique: false
+        ref: 'FlowMessage', 
     }]
 });
 
