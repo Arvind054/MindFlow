@@ -15,6 +15,10 @@ async function dbConnection(){
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+    next();
+  });
 //Routes for Flow
 app.use("/flow",FlowRoutes);
 

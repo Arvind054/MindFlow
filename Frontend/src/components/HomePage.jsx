@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Brain, MessageCircle, Map, Rocket, Sparkles, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { createFlowAPI } from "../Store/API/FlowApi";
 import toast from "react-hot-toast";
 import { useSelector, useDispatch } from 'react-redux';
 import { setFlow } from "../Store/Slice/FlowSlice";
+import FlowLoader from "./Loaders/FlowLoader";
 const features = [
   {
     icon: <Brain className="w-8 h-8" />,
@@ -60,19 +61,33 @@ const staggerContainer = {
 const HomePage = () => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const isAuthenticated = useSelector((state)=>state.user.isAuthenticated);
+  const user = useSelector((state)=>state.user.user);
   const handleCreateFlow = async()=>{
+    if(!isAuthenticated){
+      toast.error("Please Login to Continue");
+      navigator("/login");
+      return ;
+    }
+    setLoading(true);
      try{
-      const flow = await createFlowAPI();
+      const flow = await createFlowAPI(user?.email);
       const flowId = flow._id;
       const chat = flow.chat;
       const mapData = { nodes: flow.nodes, edges: flow.edges }; 
       const data = { id: flowId, mapData, chat }; 
       dispatch(setFlow(data));
+      setLoading(false);
       navigator(`/flow/${flowId}`);
      }catch(err){
        console.log(err);
+       setLoading(false);
        toast.error("Internal Server Error, please Try Again");
      }
+  }
+  if(loading){
+    return <FlowLoader/>;
   }
   return (
     <div className="bg-gradient-to-br from-[#0f172a] via-[#1a233a] to-[#1e293b] text-white min-h-screen font-sans overflow-hidden">

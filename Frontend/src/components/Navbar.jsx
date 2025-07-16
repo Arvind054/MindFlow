@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import {useNavigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux'
+import { getUserProfile } from '../Store/API/UserApi';
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigator = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state)=>state.user.user);
+  const isAuthenticated = useSelector((state)=>state.user.isAuthenticated);
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Chat", href: "/createFlow" },
     { name: "MindMap", href: "/myflows" },
-    { name: "About", href: "#about" },
+    { name: "About", href: "/about" },
   ];
-
+const handleLogin = ()=>{
+  navigator("/login");
+}
+useEffect(()=>{
+  const tokenInfo = JSON.parse(localStorage.getItem('VerificationToken'));
+ try{
+   if(isAuthenticated || !tokenInfo)return ;
+   getUserProfile(tokenInfo,dispatch);
+ }catch(err){
+  console.log(err);
+ }
+}, []);
   return (
     <nav className="bg-[#0f172a] text-white shadow-lg fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,11 +52,12 @@ const Navbar = () => {
 
           {/* Avatar */}
           <div className="hidden md:block">
-            <img
-              src="https://api.dicebear.com/7.x/identicon/svg?seed=MindFlow"
+            {!isAuthenticated && <button className="h-9 bg-blue-800 p-2 cursor-pointer rounded-md" onClick={handleLogin}>Login</button>}
+           { isAuthenticated && <img
+              src={user?.picture || "https://api.dicebear.com/7.x/identicon/svg?seed=MindFlow"}
               alt="avatar"
               className="w-9 h-9 rounded-full cursor-pointer border-2 border-blue-400"
-            />
+            />}
           </div>
 
           {/* Mobile Menu Button */}

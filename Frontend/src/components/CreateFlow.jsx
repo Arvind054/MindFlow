@@ -12,6 +12,8 @@ const CreateFlow = () => {
   const navigator = useNavigate();
   const chat = useSelector((state) => state.flow.chat);
   const flowId = useSelector((state)=>state.flow.flowId) ;
+  const user = useSelector((state)=>state.user.user);
+  const isAuthenticated = useSelector((state)=>state.user.isAuthenticated);
   const [userMessage, setuserMessage] = useState('');
   const [flowChat, setFlowChat] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -60,7 +62,13 @@ const CreateFlow = () => {
   useEffect(() => {
     setFlowChat(chat);
   }, [chat]);
-
+useEffect(()=>{
+  if(!isAuthenticated){
+    toast.error("Please login to continue");
+    navigator("/login");
+    return;
+  }
+})
   return (
     <div className="h-screen w-full bg-[#0f172a] text-white flex overflow-hidden pt-15">
 

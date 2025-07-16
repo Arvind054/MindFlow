@@ -1,12 +1,17 @@
 const Flow = require('../Models/FlowSchema');
 const FlowChat = require('../Models/ChatSchema');
 const FlowMessage = require("../Models/MessageSchema");
+const FlowUser = require("../Models/UserSchema")
 const {GoogleGenAI} = require('@google/genai');
 const ai = new GoogleGenAI({apiKey: process.env.GOOGLE_GEMINI_API,});
 //To Create A Flow
 module.exports.CreateFlow = async(req, res)=>{
-    console.log("req, received");
+    const {email} = req.body;
    try{
+    let user = await FlowUser.findOne({email:email});
+    if(!user){
+      user = await FlowUser.create({email:email});
+    }
     const message = await FlowMessage.create({ text: "Hello, How Can I Assist you today", sender: "AI" });
     const newChat = await FlowChat.create({ messages: [message._id] });
     const newFlow = await Flow.create({
@@ -23,17 +28,16 @@ module.exports.CreateFlow = async(req, res)=>{
         ],
         edges: []
     });
-    //console.log("new flow is", newFlow);
+    user.flows.push(newFlow._id);
+    await user.save();
     const populatedFlow = await Flow.findById(newFlow._id).populate({
       path: 'chat',
       populate: {
         path: 'messages', 
       },
     });
-    console.log("populated flow is ", populatedFlow);
     return res.json({ flow: populatedFlow });
    }catch(err){
-    console.log("err", err);
     return res.status(500).json({ error: "Internal Server Error", details: err.message });
    }
 }
@@ -118,5 +122,33 @@ function extractAIResponse(text) {
   } catch (err) {
     console.error("Failed to parse AI response:", err);
     return null;
+  }
+}
+
+//Controller to Get All the Flows of the user
+module.exports.getAllFlows = async(req, res)=>{
+  const { email } = req.query;
+  try{
+    const user = await FlowUser.findOne({email:email}).populate('flows');
+    res.json(user.flows);
+   
+  }catch(err){
+    res.status(401).send("Error Loading Flows");
+    return ;
+  }
+};
+module.exports.getFlowById = async(req, res)=>{
+  const flowId = req.params.id;
+  console.log("request received");
+  try{
+    const flow = await Flow.findById(flowId).populate({
+      path: 'chat',
+      populate: {
+        path: 'messages', 
+      },
+    });
+    return res.json(flow);
+  }catch(err){
+    return res.status(401).send("Error getting Flow Data");
   }
 }

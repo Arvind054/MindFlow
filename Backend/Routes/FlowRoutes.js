@@ -1,16 +1,10 @@
 const router = require('express').Router();
-const {CreateFlow,flowChat} = require("../Controllers/FlowControllers")
+const {CreateFlow,flowChat,getAllFlows,getFlowById} = require("../Controllers/FlowControllers")
 
+//To get All the Flows of the user
+router.get("/all",getAllFlows);
 //To get A Particular MindMap using ID
-router.get("/:id", (req, res)=>{
-
-});
-
-//To get All the Flows(MindMaps) of the user
-router.get("/all", (req, res)=>{
-  return "1";
-});
-
+router.get("/:id", getFlowById);
 //To create A new Flow for the User
 router.post("/create", CreateFlow);
 
@@ -22,5 +16,7 @@ router.post("/save", (req,res)=>{
     return "1";
 
 });
+
+
 
 module.exports = router;
