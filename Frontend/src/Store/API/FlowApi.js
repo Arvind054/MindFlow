@@ -44,8 +44,7 @@ export const getAllFlows = async(email)=>{
 export const getFlowById = async(id)=>{
     try{
        const response = await axiosInstance.get(`/flow/${id}`);
-       console.log('response is ', response);
-       return response;
+       return response.data;
     }catch(err){
         console.log(err);
         return null;

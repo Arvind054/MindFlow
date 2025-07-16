@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+const messages = [
+  "Analyzing your idea...",
+  "Identifying key concepts...",
+  "Creating structure...",
+  "Generating your mind map...",
+  "Finalizing..."
+];
+
 const ChatLoader = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % messages.length);
+    }, 2500); 
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex items-center space-x-2 p-3">
-      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+    <div className="max-w-[90%] flex items-center justify-center p-2  text-white bg-gray-900 rounded-xl shadow-lg">
+      <p className="text-lg animate-pulse">{messages[currentIndex]}</p>
     </div>
   );
 };
+
 export default ChatLoader;

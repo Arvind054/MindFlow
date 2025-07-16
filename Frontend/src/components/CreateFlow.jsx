@@ -7,6 +7,10 @@ import { chatFlowAPI } from '../Store/API/FlowApi';
 import { setFlow } from '../Store/Slice/FlowSlice';
 import {useNavigate} from 'react-router-dom';
 import ChatLoader from './Loaders/ChatLoader'
+import { useParams } from 'react-router-dom';
+import {getFlowById} from '../Store/API/FlowApi'
+import { getUserProfile } from '../Store/API/UserApi';
+import FlowDataLoader from './Loaders/FlowDataLoader';
 const CreateFlow = () => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
@@ -17,6 +21,8 @@ const CreateFlow = () => {
   const [userMessage, setuserMessage] = useState('');
   const [flowChat, setFlowChat] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [flowLoading, setFlowLoading] = useState(false);
+  const currFlowId = useParams();
   const handleChat = async()=>{
     
     try{
@@ -63,12 +69,42 @@ const CreateFlow = () => {
     setFlowChat(chat);
   }, [chat]);
 useEffect(()=>{
+  const tokenInfo = JSON.parse(localStorage.getItem('VerificationToken'));
   if(!isAuthenticated){
-    toast.error("Please login to continue");
-    navigator("/login");
-    return;
+    if(tokenInfo){
+   getUserProfile(tokenInfo,dispatch);
+    }else{
+      navigator("/login");
+    }
   }
-})
+  try{
+     if(!currFlowId.id){
+      toast.error("Flow Not Found please try again");
+      navigator("/");
+      return ;
+     }
+      
+     const getFlowData = async()=>{
+     const flow = await getFlowById(currFlowId.id);
+     console.log("flow is ", flow);
+     const flowId = flow._id;
+     const chat = flow.chat;
+     const mapData = { nodes: flow.nodes, edges: flow.edges }; 
+     const data = { id: flowId, mapData, chat }; 
+     dispatch(setFlow(data));
+     }
+     setFlowLoading(true);
+     getFlowData();
+     setFlowLoading(false);
+     
+  }catch(err){
+    toast.error("error Getting Flow");
+     navigator("/")
+  }
+}, [])
+if(flowLoading){
+  return <FlowDataLoader/>
+}
   return (
     <div className="h-screen w-full bg-[#0f172a] text-white flex overflow-hidden pt-15">
 
