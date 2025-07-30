@@ -79,7 +79,7 @@ const HomePage = () => {
       const data = { id: flowId, mapData, chat }; 
       dispatch(setFlow(data));
       setLoading(false);
-      navigator(`/flow/${flowId}`);
+      navigator(`/flow/edit/${flowId}`);
      }catch(err){
        console.log(err);
        setLoading(false);
