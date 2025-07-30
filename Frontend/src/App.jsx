@@ -7,7 +7,7 @@ import CreateFlow from './components/CreateFlow';
 import MyFlows from './components/MyFlows';
 import About from './components/About';
 import Login from './components/Login';
-import ViewMap from './components/viewMap';
+import ViewMap from './components/ViewMap'
 import './App.css'
 function App() {
   const router = createBrowserRouter([
