@@ -30,8 +30,10 @@ const flowSlice = createSlice({
             state.chat= action.payload.chat;
         },
         setMapData:(state, action)=>{
-            state.mapData.edges = action.payload.edges;
-            state.mapData.nodes = action.payload.nodes;
+            console.log("state is", action.payload);
+            state.flowId = action.payload.id;
+            state.mapData.edges = action.payload.mapData.edges;
+            state.mapData.nodes = action.payload.mapData.nodes;
         },
         setChat:(state, action)=>{
             state.chat = action.payload.chat;

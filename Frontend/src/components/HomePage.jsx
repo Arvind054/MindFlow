@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Brain, MessageCircle, Map, Rocket, Sparkles, ChevronRight } from "lucide-react";
+import { Brain, MessageCircle, Map, Rocket, Sparkles, ChevronRight,Download  } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { createFlowAPI } from "../Store/API/FlowApi";
@@ -11,7 +11,7 @@ const features = [
   {
     icon: <Brain className="w-8 h-8" />,
     title: "AI-Powered Chat",
-    description: "Engage with an intelligent assistant for learning, brainstorming, or getting coding help.",
+    description: "Engage with an intelligent assistant for Creating, Editing and Customizing you Flows.",
     color: "from-blue-500 to-blue-600"
   },
   {
@@ -21,13 +21,13 @@ const features = [
     color: "from-purple-500 to-purple-600"
   },
   {
-    icon: <Rocket className="w-8 h-8" />,
-    title: "Real-Time Collaboration",
-    description: "Collaborate with teammates and share ideas seamlessly through chat and maps.",
+    icon: <Download className="w-8 h-8" />,
+    title: "Download As PDF",
+    description: "Download and save your MindMaps to your Local Storeage.",
     color: "from-pink-500 to-pink-600"
   },
   {
-    icon: <MessageCircle className="w-8 h-8" />,
+    icon: <Rocket className="w-8 h-8" />,
     title: "Seamless UI/UX",
     description: "A beautifully designed and intuitive interface to help you stay focused.",
     color: "from-green-500 to-green-600"
@@ -137,7 +137,9 @@ const HomePage = () => {
           >
             transforms your ideas into structured, intelligent mind maps — guided by AI, built for clarity.
           </motion.p>
-
+          <span className="inline-block bg-white/5 text-blue-400 text-sm font-medium px-4 py-2 rounded-full mb-4 border border-white/10">
+              MindFlow.AI ⚡V1.0
+            </span>
           {/* CTA Buttons */}
           <motion.div
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -154,8 +156,9 @@ const HomePage = () => {
                 <ChevronRight className="w-5 h-5" />
               </span>
             </button>
+            
             <a
-              href="#"
+              href="/about"
               className="inline-flex items-center justify-center px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-medium rounded-xl shadow transition-all duration-300"
             >
               <span>See How It Works</span>
@@ -173,15 +176,9 @@ const HomePage = () => {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, margin: "-100px" }}
-        >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center shadow-lg animate-pulse cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white ml-1">
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-              </svg>
-            </div>
-          </div>
-          <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2232&auto=format&fit=crop" alt="App preview" className="w-full h-full object-cover opacity-70" />
+        > 
+          <video src="https://www.youtube.com/watch?v=3nBqSEAVANg" className="w-full h-full object-cover opacity-70" alt = "App preview" autoPlay></video>
+         
         </motion.div>
       </section>
 
@@ -254,14 +251,14 @@ const HomePage = () => {
                 href="#"
                 className="relative group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 overflow-hidden"
               >
-                <span className="relative z-10">Start Free Trial</span>
+                <span className="relative z-10">Try For Free </span>
                 <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               </a>
               <a
-                href="#"
+                href="/about"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-medium rounded-xl shadow transition-all duration-300"
               >
-                <span>Schedule Demo</span>
+                <span>Know More</span>
               </a>
             </div>
           </div>

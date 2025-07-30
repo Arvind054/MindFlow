@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Download } from 'lucide-react';
 import ReactFlow, {
   Background,
   Controls,
@@ -12,6 +13,11 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { Plus } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { useRef } from 'react';
+
+
 // Custom Editable Node Component
 const EditableNode = ({ data, id }) => {
   const [text, setText] = useState(data.label);
@@ -37,6 +43,7 @@ const MindMap = () => {
   const mapData = useSelector((state) => state.flow.mapData); 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const flowRef = useRef();
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -61,7 +68,7 @@ const MindMap = () => {
     setEdges(mapData?.edges);
   }, [mapData])
   return (
-    <div className="h-full w-full bg-[#0f172a] text-white">
+    <div className="h-full w-full bg-[#0f172a] text-white" >
       <button
         onClick={addNewNode}
         className="absolute top-4 left-4 z-10 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow"
@@ -69,7 +76,7 @@ const MindMap = () => {
         <Plus className="w-4 h-4" />
         Add Node
       </button>
-
+    <div className='w-full h-full' ref={flowRef}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -79,11 +86,13 @@ const MindMap = () => {
         nodeTypes={nodeTypes}
         fitView
         className="bg-[#0f172a]"
+        
       >
-        <MiniMap />
+        <MiniMap  />
         <Controls />
         <Background color="#334155" gap={16} />
       </ReactFlow>
+      </div>
     </div>
   );
 };

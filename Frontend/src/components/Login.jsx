@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { getUserProfile } from '../Store/API/UserApi';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
+import { FcGoogle } from "react-icons/fc";
 const Login = () => {
     const navigator = useNavigate();
       const dispatch = useDispatch();
@@ -23,11 +24,7 @@ const Login = () => {
           onClick={handleOAuthLogin}
           className="flex items-center justify-center gap-3 w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 px-6 rounded-xl shadow-md"
         >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-            alt="Google Icon"
-            className="w-5 h-5"
-          />
+          <FcGoogle/>
           Sign in with Google
         </button>
 

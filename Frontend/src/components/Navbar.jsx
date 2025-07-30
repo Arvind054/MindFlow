@@ -12,9 +12,9 @@ const Navbar = () => {
   const isAuthenticated = useSelector((state)=>state.user.isAuthenticated);
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Chat", href: "/createFlow" },
-    { name: "MindMap", href: "/myflows" },
+    { name: "MyMap", href: "/myflows" },
     { name: "About", href: "/about" },
+    { name: "Tutorial", href: ""}
   ];
 const handleLogin = ()=>{
   navigator("/login");
