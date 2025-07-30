@@ -7,7 +7,7 @@ import CreateFlow from './components/CreateFlow';
 import MyFlows from './components/MyFlows';
 import About from './components/About';
 import Login from './components/Login';
-import ViewMap from './components/ViewMap'
+import ViewMindMap from './components/ViewMindMap'
 import './App.css'
 function App() {
   const router = createBrowserRouter([
@@ -29,7 +29,7 @@ function App() {
       element: <><Navbar/><Login/></>
     },{
       path:"/flow/view/:id",
-      element: <><Navbar/><ViewMap/></>
+      element: <><Navbar/><ViewMindMap/></>
     }
   ])
   return (

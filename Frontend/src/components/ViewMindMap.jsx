@@ -23,7 +23,7 @@ import { useParams } from 'react-router-dom';
 import { setMapData } from '../Store/Slice/FlowSlice';
 import toast from 'react-hot-toast';
 
-const ViewMap = () => {
+const ViewMindMap = () => {
   const mapData = useSelector((state) => state.flow.mapData); 
   const isAuthenticated = useSelector((state) =>state.user.isAuthenticated);
   const [flowLoading, setFlowLoading] = useState(false);
@@ -143,4 +143,4 @@ const ViewMap = () => {
   );
 };
 
-export default ViewMap;
+export default ViewMindMap;
