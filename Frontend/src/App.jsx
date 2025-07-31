@@ -8,6 +8,7 @@ import MyFlows from './components/MyFlows';
 import About from './components/About';
 import Login from './components/Login';
 import ViewMindMap from './components/ViewMindMap'
+import PageNotFound from './components/PageNotFound';
 import './App.css'
 function App() {
   const router = createBrowserRouter([
@@ -30,6 +31,9 @@ function App() {
     },{
       path:"/flow/view/:id",
       element: <><Navbar/><ViewMindMap/></>
+    },{
+      path: "*",
+      element: <><Navbar/><PageNotFound/></>
     }
   ])
   return (
