@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Brain, MessageCircle, Map, Rocket, Sparkles, ChevronRight,Download  } from "lucide-react";
+import { Brain, MessageCircle, Map, Rocket, Sparkles, ChevronRight, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { createFlowAPI } from "../Store/API/FlowApi";
@@ -62,32 +62,32 @@ const HomePage = () => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const isAuthenticated = useSelector((state)=>state.user.isAuthenticated);
-  const user = useSelector((state)=>state.user.user);
-  const handleCreateFlow = async()=>{
-    if(!isAuthenticated){
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const user = useSelector((state) => state.user.user);
+  const handleCreateFlow = async () => {
+    if (!isAuthenticated) {
       toast.error("Please Login to Continue");
       navigator("/login");
-      return ;
+      return;
     }
     setLoading(true);
-     try{
+    try {
       const flow = await createFlowAPI(user?.email);
       const flowId = flow._id;
       const chat = flow.chat;
-      const mapData = { nodes: flow.nodes, edges: flow.edges }; 
-      const data = { id: flowId, mapData, chat }; 
+      const mapData = { nodes: flow.nodes, edges: flow.edges };
+      const data = { id: flowId, mapData, chat };
       dispatch(setFlow(data));
       setLoading(false);
       navigator(`/flow/edit/${flowId}`);
-     }catch(err){
-       console.log(err);
-       setLoading(false);
-       toast.error("Internal Server Error, please Try Again");
-     }
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      toast.error("Internal Server Error, please Try Again");
+    }
   }
-  if(loading){
-    return <FlowLoader/>;
+  if (loading) {
+    return <FlowLoader />;
   }
   return (
     <div className="bg-gradient-to-br from-[#0f172a] via-[#1a233a] to-[#1e293b] text-white min-h-screen font-sans overflow-hidden">
@@ -138,8 +138,8 @@ const HomePage = () => {
             transforms your ideas into structured, intelligent mind maps — guided by AI, built for clarity.
           </motion.p>
           <span className="inline-block bg-white/5 text-blue-400 text-sm font-medium px-4 py-2 rounded-full mb-4 border border-white/10">
-              MindFlow.AI ⚡V1.0
-            </span>
+            MindFlow.AI ⚡V1.0
+          </span>
           {/* CTA Buttons */}
           <motion.div
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -156,7 +156,7 @@ const HomePage = () => {
                 <ChevronRight className="w-5 h-5" />
               </span>
             </button>
-            
+
             <a
               href="/about"
               className="inline-flex items-center justify-center px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-medium rounded-xl shadow transition-all duration-300"
@@ -167,20 +167,33 @@ const HomePage = () => {
         </motion.div>
       </section>
 
-      {/* Tutorial Video */}
-      <section className="px-4 py-20 md:py-32 flex justify-center relative">
-        <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-[#0f172a] to-transparent z-0"></div>
-        <motion.div
-          className="w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl border border-gray-700/50 relative z-10 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm"
-          initial={{ opacity: 0, y: 40, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true, margin: "-100px" }}
-        > 
-          <video src="https://www.youtube.com/watch?v=3nBqSEAVANg" className="w-full h-full object-cover opacity-70" alt = "App preview" autoPlay></video>
-         
-        </motion.div>
-      </section>
+    {/* Tutorial Video */}
+<section className="px-4 py-20 md:py-32 flex flex-col items-center relative">
+  {/* Gradient Background */}
+  <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-[#0f172a] to-transparent z-0"></div>
+
+  {/* Title Text */}
+  <h2 className="text-white text-3xl font-bold mb-12 z-10">Tutorial</h2>
+
+  {/* Tutorial Video */}
+  <motion.div
+    className="w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl border border-gray-700/50 relative z-10 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm"
+    initial={{ opacity: 0, y: 40, scale: 0.98 }}
+    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    viewport={{ once: true, margin: "-100px" }}
+  >
+    <iframe
+      className="w-full h-full object-cover opacity-70"
+      src="https://www.youtube.com/embed/QwPzD6PY7PU"
+      title="App preview"
+      frameBorder="0"
+      allow="autoplay; encrypted-media"
+      allowFullScreen
+    ></iframe>
+  </motion.div>
+</section>
+
 
       {/* Features Section */}
       <section className="px-6 py-20 md:py-32 relative">

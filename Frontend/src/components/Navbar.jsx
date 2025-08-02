@@ -24,6 +24,7 @@ useEffect(()=>{
  try{
    if(isAuthenticated || !tokenInfo)return ;
    getUserProfile(tokenInfo,dispatch);
+  
  }catch(err){
   console.log(err);
  }
@@ -33,6 +34,7 @@ useEffect(()=>{
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
+          {console.log("user is", user)}
           <div className="text-2xl font-extrabold text-blue-400 tracking-tight cursor-pointer" onClick={()=>navigator('/')}>
             MindFlow
           </div>
@@ -54,7 +56,11 @@ useEffect(()=>{
           <div className="hidden md:block">
             {!isAuthenticated && <button className="h-9 bg-blue-800 p-2 cursor-pointer rounded-md" onClick={handleLogin}>Login</button>}
            { isAuthenticated && <img
-              src={user?.picture || "https://api.dicebear.com/7.x/identicon/svg?seed=MindFlow"}
+              src={user?.picture}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://api.dicebear.com/7.x/identicon/svg?seed=MindFlow";
+              }}
               alt="avatar"
               className="w-9 h-9 rounded-full cursor-pointer border-2 border-blue-400"
             />}
